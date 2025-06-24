@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 public final class ARLib
 {
+    public final static String VERSION = "0.1.0";
 
     public static ARModel Load(String... rootPaths) throws IOException
     {
