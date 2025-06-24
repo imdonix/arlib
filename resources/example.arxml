@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
+  <AR-PACKAGES>
+    <!-- Data Types Package -->
+    <AR-PACKAGE>
+      <SHORT-NAME>DataTypes</SHORT-NAME>
+      <ELEMENTS>
+        <INTEGER-TYPE>
+          <SHORT-NAME>Integer</SHORT-NAME>
+          <LOWER-LIMIT INTERVAL-TYPE="CLOSED">0</LOWER-LIMIT>
+          <UPPER-LIMIT INTERVAL-TYPE="CLOSED">65535</UPPER-LIMIT>
+        </INTEGER-TYPE>
+        <ARRAY-TYPE>
+          <SHORT-NAME>ArrayType</SHORT-NAME>
+          <ELEMENT>
+            <SHORT-NAME>Element</SHORT-NAME>
+            <TYPE-TREF DEST="INTEGER-TYPE">/DataTypes/Integer</TYPE-TREF>
+            <MAX-NUMBER-OF-ELEMENTS>5</MAX-NUMBER-OF-ELEMENTS>
+          </ELEMENT>
+        </ARRAY-TYPE>
+		<CONSTANTS>
+		  <CONSTANT-SPECIFICATION>
+		    <SHORT-NAME>InitConstant</SHORT-NAME>
+			  <VALUE-SPEC>
+				<NUMERICAL-VALUE-SPECIFICATION>
+				  <VALUE>10</VALUE>
+				</NUMERICAL-VALUE-SPECIFICATION>
+			  </VALUE-SPEC>
+		  </CONSTANT-SPECIFICATION>
+		</CONSTANTS>
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- Interfaces Package -->
+    <AR-PACKAGE>
+      <SHORT-NAME>Interfaces</SHORT-NAME>
+      <ELEMENTS>
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>DataInterface</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <DATA-ELEMENT-PROTOTYPE>
+              <SHORT-NAME>DataElement</SHORT-NAME>
+              <TYPE-TREF DEST="INTEGER-TYPE">/DataTypes/Integer</TYPE-TREF>
+            </DATA-ELEMENT-PROTOTYPE>
+            <DATA-ELEMENT-PROTOTYPE>
+              <SHORT-NAME>ArrayDataElement</SHORT-NAME>
+              <TYPE-TREF DEST="ARRAY-TYPE">/DataTypes/ArrayType</TYPE-TREF>
+            </DATA-ELEMENT-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+        <CLIENT-SERVER-INTERFACE>
+          <SHORT-NAME>CSInterface</SHORT-NAME>
+          <OPERATIONS>
+            <OPERATION-PROTOTYPE>
+              <SHORT-NAME>Operation1</SHORT-NAME>
+              <ARGUMENTS>
+                <ARGUMENT-PROTOTYPE>
+                  <SHORT-NAME>Arg1</SHORT-NAME>
+                  <DIRECTION>IN</DIRECTION>
+                  <TYPE-TREF DEST="INTEGER-TYPE">/DataTypes/Integer</TYPE-TREF>
+                </ARGUMENT-PROTOTYPE>
+              </ARGUMENTS>
+            </OPERATION-PROTOTYPE>
+          </OPERATIONS>
+        </CLIENT-SERVER-INTERFACE>
+        <MODE-DECLARATION-GROUP>
+          <SHORT-NAME>ModeGroup</SHORT-NAME>
+          <MODE-DECLARATIONS>
+            <MODE-DECLARATION>
+              <SHORT-NAME>Mode1</SHORT-NAME>
+            </MODE-DECLARATION>
+            <MODE-DECLARATION>
+              <SHORT-NAME>Mode2</SHORT-NAME>
+            </MODE-DECLARATION>
+          </MODE-DECLARATIONS>
+        </MODE-DECLARATION-GROUP>
+        <MODE-SWITCH-INTERFACE>
+          <SHORT-NAME>ModeSwitchInterface</SHORT-NAME>
+          <MODE-GROUP>
+            <MODE-DECLARATION-GROUP-PROTOTYPE>
+              <SHORT-NAME>ModeGroup</SHORT-NAME>
+              <TYPE-TREF DEST="MODE-DECLARATION-GROUP">/Interfaces/ModeGroup</TYPE-TREF>
+            </MODE-DECLARATION-GROUP-PROTOTYPE>
+          </MODE-GROUP>
+        </MODE-SWITCH-INTERFACE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- Components Package -->
+    <AR-PACKAGE>
+      <SHORT-NAME>Components</SHORT-NAME>
+      <ELEMENTS>
+        <!-- Sender Component -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>Sender</SHORT-NAME>
+		  <LONG-NAME>
+			<L-4 L="EN">Sender Component</L-4>
+		  </LONG-NAME>
+          <PORTS>
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>SenderPort</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Interfaces/DataInterface</PROVIDED-INTERFACE-TREF>
+              <PROVIDED-COM-SPECS>
+                <NONQUEUED-SENDER-COM-SPEC>
+                  <DATA-ELEMENT-IREF>
+                    <TARGET-DATA-ELEMENT-REF DEST="DATA-ELEMENT-PROTOTYPE">/Interfaces/DataInterface/DataElement</TARGET-DATA-ELEMENT-REF>
+                  </DATA-ELEMENT-IREF>
+                  <INIT-VALUE>
+                    <NUMERICAL-VALUE-SPECIFICATION>
+                      <VALUE>0</VALUE>
+                    </NUMERICAL-VALUE-SPECIFICATION>
+                  </INIT-VALUE>
+                </NONQUEUED-SENDER-COM-SPEC>
+                <NONQUEUED-SENDER-COM-SPEC>
+                  <DATA-ELEMENT-IREF>
+                    <TARGET-DATA-ELEMENT-REF DEST="DATA-ELEMENT-PROTOTYPE">/Interfaces/DataInterface/ArrayDataElement</TARGET-DATA-ELEMENT-REF>
+                  </DATA-ELEMENT-IREF>
+                  <INIT-VALUE>
+                    <ARRAY-VALUE-SPECIFICATION>
+                      <ELEMENTS>
+                        <NUMERICAL-VALUE-SPECIFICATION>
+                          <VALUE>1</VALUE>
+                        </NUMERICAL-VALUE-SPECIFICATION>
+                        <NUMERICAL-VALUE-SPECIFICATION>
+                          <VALUE>2</VALUE>
+                        </NUMERICAL-VALUE-SPECIFICATION>
+                      </ELEMENTS>
+                    </ARRAY-VALUE-SPECIFICATION>
+                  </INIT-VALUE>
+                </NONQUEUED-SENDER-COM-SPEC>
+              </PROVIDED-COM-SPECS>
+            </P-PORT-PROTOTYPE>
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>ClientPort</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="CLIENT-SERVER-INTERFACE">/Interfaces/CSInterface</REQUIRED-INTERFACE-TREF>
+              <REQUIRED-COM-SPECS>
+                <CLIENT-SERVER-COM-SPEC>
+                  <OPERATION-IREF>
+                    <TARGET-REQUIRED-OPERATION-REF DEST="OPERATION-PROTOTYPE">/Interfaces/CSInterface/Operation1</TARGET-REQUIRED-OPERATION-REF>
+                  </OPERATION-IREF>
+                </CLIENT-SERVER-COM-SPEC>
+              </REQUIRED-COM-SPECS>
+            </R-PORT-PROTOTYPE>
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>ModePort</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="MODE-SWITCH-INTERFACE">/Interfaces/ModeSwitchInterface</REQUIRED-INTERFACE-TREF>
+              <REQUIRED-COM-SPECS>
+                <MODE-SWITCHED-ACK>
+                  <TIMEOUT>0.1</TIMEOUT>
+                </MODE-SWITCHED-ACK>
+              </REQUIRED-COM-SPECS>
+            </R-PORT-PROTOTYPE>
+          </PORTS>
+          <INTERNAL-BEHAVIORS>
+            <SWC-INTERNAL-BEHAVIOR>
+              <SHORT-NAME>SenderBehavior</SHORT-NAME>
+              <PORT-API-OPTIONS>
+                <PORT-API-OPTION>
+                  <PORT-REF DEST="P-PORT-PROTOTYPE">/Components/Sender/SenderPort</PORT-REF>
+                  <ENABLE-TAKE-ADDRESS>false</ENABLE-TAKE-ADDRESS>
+                  <INDIRECT-API>false</INDIRECT-API>
+                </PORT-API-OPTION>
+              </PORT-API-OPTIONS>
+              <RUNNABLES>
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>SendRunnable</SHORT-NAME>
+                  <CAN-BE-INVOKED-CONCURRENTLY>false</CAN-BE-INVOKED-CONCURRENTLY>
+                  <DATA-SEND-POINTS>
+                    <VARIABLE-ACCESS>
+                      <SHORT-NAME>SendPoint</SHORT-NAME>
+                      <ACCESSED-VARIABLE>
+                        <AUTOSAR-VARIABLE-IREF>
+                          <PORT-PROTOTYPE-REF DEST="P-PORT-PROTOTYPE">/Components/Sender/SenderPort</PORT-PROTOTYPE-REF>
+                          <TARGET-DATA-ELEMENT-REF DEST="DATA-ELEMENT-PROTOTYPE">/Interfaces/DataInterface/DataElement</TARGET-DATA-ELEMENT-REF>
+                        </AUTOSAR-VARIABLE-IREF>
+                      </ACCESSED-VARIABLE>
+                    </VARIABLE-ACCESS>
+                  </DATA-SEND-POINTS>
+                  <SERVER-CALL-POINTS>
+                    <SYNCHRONOUS-SERVER-CALL-POINT>
+                      <SHORT-NAME>CallPoint1</SHORT-NAME>
+                      <OPERATION-IREF>
+                        <CONTEXT-R-PORT-REF DEST="R-PORT-PROTOTYPE">/Components/Sender/ClientPort</CONTEXT-R-PORT-REF>
+                        <TARGET-REQUIRED-OPERATION-REF DEST="OPERATION-PROTOTYPE">/Interfaces/CSInterface/Operation1</TARGET-REQUIRED-OPERATION-REF>
+                      </OPERATION-IREF>
+                    </SYNCHRONOUS-SERVER-CALL-POINT>
+                  </SERVER-CALL-POINTS>
+                  <SYMBOL>timing</SYMBOL>
+                  <MINIMUM-START-INTERVAL>0</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+              </RUNNABLES>
+              <EVENTS>
+                <TIMING-EVENT>
+                  <SHORT-NAME>TimingEvent1</SHORT-NAME>
+                  <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/Components/Sender/SenderBehavior/SendRunnable</START-ON-EVENT-REF>
+                  <PERIOD>0.1</PERIOD>
+                </TIMING-EVENT>
+              </EVENTS>
+            </SWC-INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+          <SERVICE-DEPENDENCIES>
+            <SERVICE-DEPENDENCY>
+              <SHORT-NAME>ServiceDep1</SHORT-NAME>
+            </SERVICE-DEPENDENCY>
+          </SERVICE-DEPENDENCIES>
+          <NV-BLOCK-NEEDS>
+            <SHORT-NAME>NVBlock1</SHORT-NAME>
+            <N-DATA-SETS>1</N-DATA-SETS>
+          </NV-BLOCK-NEEDS>
+          <PARAMETERS>
+            <PARAMETER-DATA-PROTOTYPE>
+              <SHORT-NAME>Param1</SHORT-NAME>
+              <TYPE-TREF DEST="INTEGER-TYPE">/DataTypes/Integer</TYPE-TREF>
+            </PARAMETER-DATA-PROTOTYPE>
+          </PARAMETERS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+        <!-- Composition -->
+        <COMPOSITION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>MyComposition</SHORT-NAME>
+          <COMPONENTS>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>SenderInstance</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/Components/Sender</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>ReceiverInstance</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/Components/Receiver</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+          </COMPONENTS>
+          <CONNECTORS>
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>Connector1</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Components/MyComposition/SenderInstance</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/Components/Sender/SenderPort</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Components/MyComposition/ReceiverInstance</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/Components/Receiver/ReceiverPort</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+          </CONNECTORS>
+          <PORTS>
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>CompSenderPort</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Interfaces/DataInterface</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+          </PORTS>
+        </COMPOSITION-SW-COMPONENT-TYPE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- Implementations Package -->
+    <AR-PACKAGE>
+      <SHORT-NAME>Implementations</SHORT-NAME>
+      <ELEMENTS>
+        <SWC-IMPLEMENTATION>
+          <SHORT-NAME>SenderImpl</SHORT-NAME>
+          <BEHAVIOR-REF DEST="SWC-INTERNAL-BEHAVIOR">/Components/Sender/SenderBehavior</BEHAVIOR-REF>
+          <PROGRAMMING-LANGUAGE>C</PROGRAMMING-LANGUAGE>
+        </SWC-IMPLEMENTATION>
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- Data Type Mapping (Minimal Example) -->
+    <AR-PACKAGE>
+      <SHORT-NAME>DataTypeMappings</SHORT-NAME>
+      <ELEMENTS>
+        <DATA-TYPE-MAPPING-SET>
+          <SHORT-NAME>DataMapping</SHORT-NAME>
+          <DATA-TYPE-MAPS>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="INTEGER-TYPE">/DataTypes/Integer</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="INTEGER-TYPE">/DataTypes/Integer</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+          </DATA-TYPE-MAPS>
+        </DATA-TYPE-MAPPING-SET>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
