@@ -1,8 +1,5 @@
 package dev.donix.arlib;
 
-import arlib.parsers.*;
-import arlib.parsers.entities.*;
-import arlib.parsers.props.*;
 import dev.donix.arlib.parsers.*;
 import dev.donix.arlib.parsers.entities.*;
 import dev.donix.arlib.parsers.props.*;

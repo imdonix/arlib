@@ -2,7 +2,6 @@ package dev.donix.arlib.tests;
 
 import dev.donix.arlib.ARLib;
 import dev.donix.arlib.ARModel;
-import arlib.entities.*;
 import dev.donix.arlib.entities.*;
 import dev.donix.arlib.exceptions.EntityNotExistException;
 import dev.donix.arlib.parsers.FileParseResult;

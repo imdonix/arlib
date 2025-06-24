@@ -20,11 +20,11 @@ for (FileParseResult res : model.getFileParseResults())
 {
     if(res.isSuccessful())
     {
-        System.out.println(res.getPath() + " parsed successful. [Found entities:" + res.getCollected().size() + "]");
+        System.out.println(res.getPath() + " parsed successfully. [Found entities:" + res.getCollected().size() + "]");
     }
     else
     {
-        System.out.println(res.getPath() + " parsed failed!");
+        System.out.println(res.getPath() + " failed to parse!");
         for (FileParseProblem problem : res.getProblems())
         {
             System.out.println(problem);
@@ -34,7 +34,7 @@ for (FileParseResult res : model.getFileParseResults())
 ```
 
 ``` log
-example.arxml parsed successful. [Found entities: 19]
+example.arxml parsed successfully. [Found entities: 19]
 ```
 
 Accessing entities in the model and general usage:
