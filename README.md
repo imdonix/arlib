@@ -1,18 +1,18 @@
 # AUTOSAR Parsing Library - arlib
 
-A minimalist AUTOSAR parsing library for Java focusing on performance and ease of use.
-The library can parse `arxml` files and create a model populated with is contents as `AREnity`s and `ARProp`.
+A minimalist AUTOSAR parsing library for Java, focusing on performance and ease of use.
+The library can parse `arxml` files and create a model populated with their contents as `AREntity`s and `ARProperty`s.
 
-The library only support RTE relevant elements, and can be only used for parsing, the model cannot be modified.
-For implemented AR elements check `src/entities`.
+The library only supports RTE-relevant elements and is designed solely for parsing; the model cannot be modified.
+For a list of implemented AR elements, see `src/entities`.
 
 # How to use
 Creating a model by parsing all `arxml` files in a directory:
 ``` java
-import arlib.ARLib;
-import arlib.ARModel;
-import arlib.entities.SWComponent;
-import arlib.entities.SWPort;
+import dev.donix.arlib.ARLib;
+import dev.donix.arlib.ARModel;
+import dev.donix.arlib.entities.SWComponent;
+import dev.donix.arlib.entities.SWPort;
 
 ARModel model = ARLib.Load("./repository");
 
@@ -39,12 +39,12 @@ example.arxml parsed successful. [Found entities: 19]
 
 Accessing entities in the model and general usage:
 ``` java
-    SWComponent comp = model.get(SWComponent.class, "/Components/Sender");
-    List<SWPort> ports = comp.getPorts(SWPort.class);
-    for (SWPort p : ports)
-    {
-        System.out.println("Port: " + p.getReference());
-    }
+SWComponent comp = model.get(SWComponent.class, "/Components/Sender");
+List<SWPort> ports = comp.getPorts(SWPort.class);
+for (SWPort p : ports)
+{
+    System.out.println("Port: " + p.getReference());
+}
 ```
 
 ``` log
